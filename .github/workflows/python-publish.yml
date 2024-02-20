@@ -1,0 +1,43 @@
+name: IPTVchecker
+
+on:
+  schedule:
+    - cron: '0 16 * * *'
+  push:
+    branches:
+      - main
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+    
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.x
+        
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install build
+    - - name: Run iptv
+        run: python ${{ github.workspace }}/iptvchecker.py
+          - name: Upload a Build Artifact
+        uses: actions/upload-artifact@v4.0.0
+        with:
+          name: iptvchecker
+          path: ${{ github.workspace }}/
+
+      - name: 提交更改
+        run: |
+          git config --local user.email "sfang2008@126.com"
+          git config --local user.name "iamfang2019"
+          git add .
+          git commit *.txt -m "Add generated file"
+          git commit *.m3u -m "Add generated file"
+          #git pull --rebase
+          git push -f
