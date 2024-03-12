@@ -22,7 +22,7 @@ jobs:
     
 
       - name: Run iptvchecher
-        run: python ${{ github.workspace }}/IPTV_Checker.py
+        run: python ${{ github.workspace }}/migu.py
         
          
       - name: Upload a Build Artifact
